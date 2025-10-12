@@ -6,12 +6,16 @@ public abstract class Produto {
     private double precoCusto;
     private double precoVenda;
     private int quantidadeEstoque;
+    private Categoria categoria;
 
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
+        if (nome == null || nome.isEmpty()){
+            throw new IllegalArgumentException("O nome do produto não deve ser nulo.");
+        }
         this.nome = nome;
     }
 
@@ -20,9 +24,6 @@ public abstract class Produto {
     }
 
     public void setCodigo(String codigo) {
-        if (codigo.length() > 5){
-            throw new IllegalArgumentException("O código deve ter no máximo 5 digitos.");
-        }
         this.codigo = codigo;
     }
 
@@ -31,7 +32,7 @@ public abstract class Produto {
     }
 
     public void setPrecoCusto(double precoCusto) {
-        if (precoCusto <= 0){
+        if (precoCusto < 0){
             throw new IllegalArgumentException("O preço de custo não pode ser menor ou igual a 0.");
         }
         this.precoCusto = precoCusto;
@@ -41,11 +42,12 @@ public abstract class Produto {
         return precoVenda;
     }
 
-    public void setPrecoVenda(double precoVenda) {
-        if (precoVenda < this.precoCusto){
-            throw new IllegalArgumentException("O preço de venda não pode ser menor que o preço de custo.");
+    public boolean setPrecoVenda(double precoVenda) {
+        if (precoVenda >= this.precoCusto){
+            this.precoVenda = precoVenda;
+            return true;
         }
-        this.precoVenda = precoVenda;
+        return false;
     }
 
     public int getQuantidadeEstoque() {
@@ -54,8 +56,8 @@ public abstract class Produto {
 
 
     public void adicionarEstoque(int valor){
-        if (valor <= 0){
-            return;
+        if (valor < 0){
+            throw new IllegalArgumentException("O valor adicionado ao estoque deve ser maior que 0.");
         }
         this.quantidadeEstoque += valor;
     }
@@ -66,4 +68,6 @@ public abstract class Produto {
         }
         this.quantidadeEstoque -= valor;
     }
+
+    public abstract void calcularPrecoVendaComImposto(double imposto);
 }

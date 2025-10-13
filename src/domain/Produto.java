@@ -8,6 +8,12 @@ public abstract class Produto {
     private int quantidadeEstoque;
     private Categoria categoria;
 
+    public Produto(String nome, String codigo, Categoria categoria) {
+        this.nome = nome;
+        this.codigo = codigo;
+        this.categoria = categoria;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -24,6 +30,9 @@ public abstract class Produto {
     }
 
     public void setCodigo(String codigo) {
+        if (codigo == null || codigo.isEmpty()){
+            throw  new IllegalArgumentException("O campo deve ser preenchido");
+        }
         this.codigo = codigo;
     }
 
@@ -54,6 +63,16 @@ public abstract class Produto {
         return quantidadeEstoque;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        if (categoria == null){
+            throw new IllegalArgumentException("A categoria deve ser especificada.");
+        }
+        this.categoria = categoria;
+    }
 
     public void adicionarEstoque(int valor){
         if (valor < 0){
@@ -68,6 +87,8 @@ public abstract class Produto {
         }
         this.quantidadeEstoque -= valor;
     }
+
+    public abstract void exibirDetalhes();
 
     public abstract void calcularPrecoVendaComImposto(double imposto);
 }

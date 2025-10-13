@@ -4,6 +4,11 @@ package domain;
 public class Alimento extends Produto{
     private String dataDeValidade;
 
+    public Alimento(String nome, String codigo, Categoria categoria, String dataDeValidade) {
+        super(nome, codigo, categoria);
+        this.dataDeValidade = dataDeValidade;
+    }
+
     public String getDataDeValidade() {
         return dataDeValidade;
     }
@@ -22,5 +27,13 @@ public class Alimento extends Produto{
         }
         double precoComImposto = this.getPrecoVenda() * (imposto/100 + 1);
         this.setPrecoVenda(precoComImposto);
+    }
+
+    @Override
+    public void exibirDetalhes() {
+        System.out.println(this.getCategoria().getCategoria_texto());
+        System.out.println("Nome: " + this.getNome());
+        System.out.println("Código: " + this.getCodigo());
+        System.out.println("Preço: " + this.getPrecoVenda());
     }
 }

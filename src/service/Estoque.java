@@ -29,4 +29,8 @@ public class Estoque {
         }
         throw new ProdutoNaoEncontradoException();
     }
+
+    public Produto[] getProdutos() {
+        return produtos;
+    }
 }

@@ -1,8 +1,8 @@
 package domain;
 
-public class Vestuario extends Produto{
-    public Vestuario(String nome, String codigo, Categoria categoria) {
-        super(nome, codigo, categoria);
+public class Vestuario extends Produto implements Taxavel{
+    public Vestuario(String nome, String codigo, double precoCusto, double precoVenda, int quantidadeEstoque, Categoria categoria) {
+        super(nome, codigo, precoCusto, precoVenda, quantidadeEstoque, categoria);
     }
 
     @Override
@@ -16,9 +16,6 @@ public class Vestuario extends Produto{
 
     @Override
     public void exibirDetalhes() {
-        System.out.println(this.getCategoria().getCategoria_texto());
-        System.out.println("Nome: " + this.getNome());
-        System.out.println("Código: " + this.getCodigo());
-        System.out.println("Preço: " + this.getPrecoVenda());
+        super.exibirDetalhes();
     }
 }

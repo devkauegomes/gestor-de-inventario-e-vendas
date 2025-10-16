@@ -1,30 +1,90 @@
 package service;
 
 import domain.Produto;
+import exception.EstoqueCheioException;
+import exception.ProdutoForaDeEstoqueException;
 import exception.ProdutoNaoEncontradoException;
 
 public class Venda {
     private String cliente;
     private StatusVenda statusVenda;
     private Estoque estoque;
-    private Produto[] produtos;
+    private Produto[] itensNaVenda;
     private int contadorProdutos;
 
     public Venda(String cliente, StatusVenda statusVenda, Estoque estoque) {
         this.cliente = cliente;
         this.statusVenda = statusVenda;
+        this.itensNaVenda = new Produto[30];
         this.estoque = estoque;
-        this.produtos = new Produto[30];
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        if (cliente == null || cliente.isEmpty()){
+            throw new IllegalArgumentException("O nome do produto não deve ser nulo.");
+        }
+        this.cliente = cliente;
+    }
+
+    public StatusVenda getStatusVenda() {
+        return statusVenda;
+    }
+
+    public void setStatusVenda(StatusVenda statusVenda) {
+        this.statusVenda = statusVenda;
+    }
+
+    public Estoque getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Estoque estoque) {
+        if (estoque == null || estoque.getProdutos().length == 0){
+            throw new IllegalArgumentException("O estoque não pode ser nulo ou vazio.");
+        }
+        this.estoque = estoque;
     }
 
     public void adicionarProduto(Produto produto){
-        for (Produto produtoEstoque : estoque.getProdutos()){
-            if (produto.getCodigo().equals(produtoEstoque.getCodigo())){
-                this.produtos[contadorProdutos] = produto;
+        if (verificaProdutoNoEstoque(produto) && verificaQuantidadeEmEstoque(produto)){
+            if (contadorProdutos < this.itensNaVenda.length){
+                this.itensNaVenda[contadorProdutos] = produto;
                 contadorProdutos++;
                 return;
             }
+            throw new EstoqueCheioException();
         }
-        throw new ProdutoNaoEncontradoException();
+        throw new ProdutoForaDeEstoqueException();
     }
+
+    private boolean verificaProdutoNoEstoque(Produto produto){
+        for (Produto produtoEstoque : this.estoque.getProdutos()){
+            if (produtoEstoque != null){
+                if (produtoEstoque.getCodigo().equals(produto.getCodigo())){
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
+
+    private boolean verificaQuantidadeEmEstoque(Produto produto){
+        return produto.getQuantidadeEstoque() > 0;
+    }
+
+    public void exibirDetalhes(){
+        for (Produto produto : this.itensNaVenda){
+            if (produto != null){
+                produto.exibirDetalhes();
+            }
+        }
+    }
+
+    public
 }

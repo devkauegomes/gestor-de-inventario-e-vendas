@@ -8,9 +8,13 @@ public abstract class Produto {
     private int quantidadeEstoque;
     private Categoria categoria;
 
-    public Produto(String nome, String codigo, Categoria categoria) {
+
+    public Produto(String nome, String codigo, double precoCusto, double precoVenda, int quantidadeEstoque, Categoria categoria) {
         this.nome = nome;
         this.codigo = codigo;
+        this.precoCusto = precoCusto;
+        this.precoVenda = precoVenda;
+        this.quantidadeEstoque = quantidadeEstoque;
         this.categoria = categoria;
     }
 
@@ -31,7 +35,7 @@ public abstract class Produto {
 
     public void setCodigo(String codigo) {
         if (codigo == null || codigo.isEmpty()){
-            throw  new IllegalArgumentException("O campo deve ser preenchido");
+            throw new IllegalArgumentException("O campo deve ser preenchido");
         }
         this.codigo = codigo;
     }
@@ -88,7 +92,12 @@ public abstract class Produto {
         this.quantidadeEstoque -= valor;
     }
 
-    public abstract void exibirDetalhes();
-
-    public abstract void calcularPrecoVendaComImposto(double imposto);
+    public void exibirDetalhes(){
+        System.out.println("------------------------------");
+        System.out.println("Categoria: " + this.getCategoria().getCategoria_texto());
+        System.out.println("Nome: " + this.getNome());
+        System.out.println("Código: " + this.getCodigo());
+        System.out.println("Preço de Custo: " + this.getPrecoCusto());
+        System.out.println("Preço de Venda: " + this.getPrecoVenda());
+    }
 }

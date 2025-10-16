@@ -1,13 +1,11 @@
 package domain;
 
-public class Livro extends Produto{
+public class Livro extends Produto implements Taxavel{
     private String autor;
     private String editora;
 
-    public Livro(String nome, String codigo, Categoria categoria, String autor, String editora) {
-        super(nome, codigo, categoria);
-        this.autor = autor;
-        this.editora = editora;
+    public Livro(String nome, String codigo, double precoCusto, double precoVenda, int quantidadeEstoque, Categoria categoria) {
+        super(nome, codigo, precoCusto, precoVenda, quantidadeEstoque, categoria);
     }
 
     public String getAutor() {
@@ -43,9 +41,8 @@ public class Livro extends Produto{
 
     @Override
     public void exibirDetalhes() {
-        System.out.println(this.getCategoria().getCategoria_texto());
-        System.out.println("Nome: " + this.getNome());
-        System.out.println("Código: " + this.getCodigo());
-        System.out.println("Preço: " + this.getPrecoVenda());
+        super.exibirDetalhes();
+        System.out.println("Autor: " + this.autor);
+        System.out.println("Editora: " + this.editora);
     }
 }

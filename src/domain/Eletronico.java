@@ -1,10 +1,10 @@
 package domain;
 
-public class Eletronico extends Produto{
+public class Eletronico extends Produto implements Taxavel{
     private int mesesGarantia;
 
-    public Eletronico (String nome, String codigo, Categoria categoria){
-        super(nome, codigo, categoria);
+    public Eletronico(String nome, String codigo, double precoCusto, double precoVenda, int quantidadeEstoque, Categoria categoria) {
+        super(nome, codigo, precoCusto, precoVenda, quantidadeEstoque, categoria);
     }
 
     public int getMesesGarantia() {
@@ -29,9 +29,7 @@ public class Eletronico extends Produto{
 
     @Override
     public void exibirDetalhes() {
-        System.out.println(this.getCategoria().getCategoria_texto());
-        System.out.println("Nome: " + this.getNome());
-        System.out.println("Código: " + this.getCodigo());
-        System.out.println("Preço: " + this.getPrecoVenda());
+        super.exibirDetalhes();
+        System.out.println("Meses de Garantia: " + this.mesesGarantia);
     }
 }

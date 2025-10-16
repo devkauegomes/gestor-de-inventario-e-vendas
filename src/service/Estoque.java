@@ -12,10 +12,16 @@ public class Estoque {
         this.produtos = new Produto[100];
     }
 
+    public Produto[] getProdutos() {
+        return produtos;
+    }
+
+
     public void adicionarProdutoAoEstoque(Produto produto){
         if (this.contadorDeProdutos < this.produtos.length){
             this.produtos[contadorDeProdutos] = produto;
             contadorDeProdutos++;
+            return;
         }
         throw new EstoqueCheioException();
     }
@@ -30,7 +36,13 @@ public class Estoque {
         throw new ProdutoNaoEncontradoException();
     }
 
-    public Produto[] getProdutos() {
-        return produtos;
+    public void exibirDetalhes(){
+        for (Produto produto: this.produtos){
+            if (produto == null){
+                continue;
+            }
+            produto.exibirDetalhes();
+        }
     }
+
 }

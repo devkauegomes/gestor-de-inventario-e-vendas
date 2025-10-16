@@ -35,6 +35,7 @@ public class Venda {
 
     public void setStatusVenda(StatusVenda statusVenda) {
         this.statusVenda = statusVenda;
+        removerItensSeStatusConcluido();
     }
 
     public Estoque getEstoque() {
@@ -58,6 +59,26 @@ public class Venda {
             throw new EstoqueCheioException();
         }
         throw new ProdutoForaDeEstoqueException();
+    }
+
+    public void removerProduto(Produto produto){
+        Produto[] novoItensNaVenda = new Produto[this.itensNaVenda.length - 1];
+        int novoIndice = 0;
+        boolean removido = false;
+
+        for (int i = 0; i < this.itensNaVenda.length; i++) {
+            if (this.itensNaVenda[i] != null){
+                if (this.itensNaVenda[i].getCodigo().equals(produto.getCodigo()) && !removido){
+                    removido = true;
+                    continue;
+                }
+            }
+
+            novoItensNaVenda[novoIndice] = this.itensNaVenda[i];
+            novoIndice++;
+        }
+
+        this.itensNaVenda = novoItensNaVenda;
     }
 
     private boolean verificaProdutoNoEstoque(Produto produto){
@@ -96,23 +117,17 @@ public class Venda {
         return valorTotal;
     }
 
-    public void removerProduto(Produto produto){
-        Produto[] novoItensNaVenda = new Produto[this.itensNaVenda.length - 1];
-        int novoIndice = 0;
-        boolean removido = false;
-
-            for (int i = 0; i < this.itensNaVenda.length; i++) {
-                if (this.itensNaVenda[i] != null){
-                    if (this.itensNaVenda[i].getCodigo().equals(produto.getCodigo()) && !removido){
-                        removido = true;
-                        continue;
+    public void removerItensSeStatusConcluido(){
+        if (this.statusVenda == StatusVenda.CONCLUIDA){
+            for (Produto produtoNaVenda: this.itensNaVenda){
+                if (produtoNaVenda == null) continue;
+                for (Produto produtoEstoque : this.estoque.getProdutos()){
+                    if (produtoEstoque == null) continue;
+                    if (produtoNaVenda.getCodigo().equals(produtoEstoque.getCodigo())){
+                        produtoEstoque.setQuantidadeEstoque(produtoEstoque.getQuantidadeEstoque() - 1);
                     }
                 }
-
-                novoItensNaVenda[novoIndice] = this.itensNaVenda[i];
-                novoIndice++;
             }
-
-        this.itensNaVenda = novoItensNaVenda;
+        }
     }
 }

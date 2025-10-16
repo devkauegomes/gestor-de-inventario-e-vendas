@@ -47,11 +47,9 @@ public class Main {
         System.out.println("\n######### Preço Total ########");
         venda1.calcularPrecoItens();
 
-        venda1.removerProduto(livro);
+        venda1.setStatusVenda(statusVendaConcluida);
 
-        System.out.println("\n########## Itens após remoção ###########");
-
+        System.out.println("\n############# Venda após ser Concluída ##############");
         venda1.exibirDetalhes();
-
     }
 }

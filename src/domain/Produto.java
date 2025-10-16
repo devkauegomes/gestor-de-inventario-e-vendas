@@ -67,6 +67,13 @@ public abstract class Produto {
         return quantidadeEstoque;
     }
 
+    public void setQuantidadeEstoque(int quantidadeEstoque) {
+        if (quantidadeEstoque < 0){
+            throw new IllegalArgumentException("A quantidade informada deve ser maior ou igual a 0.");
+        }
+        this.quantidadeEstoque = quantidadeEstoque;
+    }
+
     public Categoria getCategoria() {
         return categoria;
     }
@@ -99,5 +106,6 @@ public abstract class Produto {
         System.out.println("Código: " + this.getCodigo());
         System.out.println("Preço de Custo: " + this.getPrecoCusto());
         System.out.println("Preço de Venda: " + this.getPrecoVenda());
+        System.out.println("Quantidade em Estoque: " + this.quantidadeEstoque);
     }
 }

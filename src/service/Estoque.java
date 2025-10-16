@@ -28,10 +28,13 @@ public class Estoque {
 
     public void buscarProdutoPorCodigo(String codigo){
         for (Produto produto : this.produtos){
-            if (produto.getCodigo().equals(codigo)){
-                produto.exibirDetalhes();
-                return;
+            if (produto != null){
+                if (produto.getCodigo().equals(codigo)){
+                    produto.exibirDetalhes();
+                    return;
+                }
             }
+
         }
         throw new ProdutoNaoEncontradoException();
     }
@@ -43,6 +46,26 @@ public class Estoque {
             }
             produto.exibirDetalhes();
         }
+    }
+
+    public void removerProduto(Produto produto){
+        Produto[] novoProdutos = new Produto[this.produtos.length - 1];
+        int novoIndice = 0;
+        boolean removido = false;
+
+        for (int i = 0; i < this.produtos.length; i++) {
+            if (this.produtos[i] != null){
+                if (this.produtos[i].getCodigo().equals(produto.getCodigo()) && !removido){
+                    removido = true;
+                    continue;
+                }
+            }
+
+            novoProdutos[novoIndice] = this.produtos[i];
+            novoIndice++;
+        }
+
+        this.produtos = novoProdutos;
     }
 
 }

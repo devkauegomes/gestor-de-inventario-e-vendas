@@ -3,7 +3,6 @@ package service;
 import domain.Produto;
 import exception.EstoqueCheioException;
 import exception.ProdutoForaDeEstoqueException;
-import exception.ProdutoNaoEncontradoException;
 
 public class Venda {
     private String cliente;
@@ -86,5 +85,34 @@ public class Venda {
         }
     }
 
-    public
+    public double calcularPrecoItens(){
+        double valorTotal = 0;
+        for (Produto produto : this.itensNaVenda){
+            if (produto != null){
+                valorTotal += produto.getPrecoVenda();
+            }
+        }
+        System.out.println("Valor total da venda: " + valorTotal);
+        return valorTotal;
+    }
+
+    public void removerProduto(Produto produto){
+        Produto[] novoItensNaVenda = new Produto[this.itensNaVenda.length - 1];
+        int novoIndice = 0;
+        boolean removido = false;
+
+            for (int i = 0; i < this.itensNaVenda.length; i++) {
+                if (this.itensNaVenda[i] != null){
+                    if (this.itensNaVenda[i].getCodigo().equals(produto.getCodigo()) && !removido){
+                        removido = true;
+                        continue;
+                    }
+                }
+
+                novoItensNaVenda[novoIndice] = this.itensNaVenda[i];
+                novoIndice++;
+            }
+
+        this.itensNaVenda = novoItensNaVenda;
+    }
 }

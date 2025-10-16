@@ -32,16 +32,26 @@ public class Main {
         estoque1.adicionarProdutoAoEstoque(livro);
         estoque1.adicionarProdutoAoEstoque(alimento);
 
+        estoque1.removerProduto(vestuario);
+
         estoque1.exibirDetalhes();
 
-        System.out.println("####################################");
+        System.out.println("\n################# Venda ###################");
 
-        Venda venda1 = new Venda("Eduarda Almeida", statusVendaProcessando, estoque1);
+        Venda venda1 = new Venda("Kauê Kelvin", statusVendaProcessando, estoque1);
 
         venda1.adicionarProduto(livro);
         venda1.adicionarProduto(eletronico);
 
         venda1.exibirDetalhes();
+        System.out.println("\n######### Preço Total ########");
         venda1.calcularPrecoItens();
+
+        venda1.removerProduto(livro);
+
+        System.out.println("\n########## Itens após remoção ###########");
+
+        venda1.exibirDetalhes();
+
     }
 }

@@ -16,6 +16,7 @@ public class Venda {
         this.statusVenda = statusVenda;
         this.itensNaVenda = new Produto[30];
         this.estoque = estoque;
+        removerItensSeStatusConcluido();
     }
 
     public String getCliente() {
@@ -49,11 +50,12 @@ public class Venda {
         this.estoque = estoque;
     }
 
-    public void adicionarProduto(Produto produto){
+    public void adicionarProduto(Produto produto, int quantidade){
         if (verificaProdutoNoEstoque(produto) && verificaQuantidadeEmEstoque(produto)){
             if (contadorProdutos < this.itensNaVenda.length){
                 this.itensNaVenda[contadorProdutos] = produto;
                 contadorProdutos++;
+                produto.setQuantidadeNaCompra(quantidade);
                 return;
             }
             throw new EstoqueCheioException();
@@ -124,7 +126,11 @@ public class Venda {
                 for (Produto produtoEstoque : this.estoque.getProdutos()){
                     if (produtoEstoque == null) continue;
                     if (produtoNaVenda.getCodigo().equals(produtoEstoque.getCodigo())){
-                        produtoEstoque.setQuantidadeEstoque(produtoEstoque.getQuantidadeEstoque() - 1);
+                        try {
+                            produtoEstoque.setQuantidadeEstoque(produtoEstoque.getQuantidadeEstoque() - produtoEstoque.getQuantidadeNaCompra());
+                        } catch (RuntimeException e) {
+                            throw new RuntimeException("A quantidade a comprar é maior que a quantidade em estoque.");
+                        }
                     }
                 }
             }

@@ -7,6 +7,7 @@ public abstract class Produto {
     private double precoVenda;
     private int quantidadeEstoque;
     private Categoria categoria;
+    private int quantidadeNaCompra;
 
 
     public Produto(String nome, String codigo, double precoCusto, double precoVenda, int quantidadeEstoque, Categoria categoria) {
@@ -83,6 +84,17 @@ public abstract class Produto {
             throw new IllegalArgumentException("A categoria deve ser especificada.");
         }
         this.categoria = categoria;
+    }
+
+    public int getQuantidadeNaCompra() {
+        return quantidadeNaCompra;
+    }
+
+    public void setQuantidadeNaCompra(int quantidadeNaCompra) {
+        if (quantidadeNaCompra < 0){
+            throw new IllegalArgumentException("Quantidade deve ser maior ou igual a 0.");
+        }
+        this.quantidadeNaCompra = quantidadeNaCompra;
     }
 
     public void adicionarEstoque(int valor){

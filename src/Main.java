@@ -40,8 +40,8 @@ public class Main {
 
         Venda venda1 = new Venda("Kauê Kelvin", statusVendaProcessando, estoque1);
 
-        venda1.adicionarProduto(livro);
-        venda1.adicionarProduto(eletronico);
+        venda1.adicionarProduto(livro,180);
+        venda1.adicionarProduto(eletronico,78);
 
         venda1.exibirDetalhes();
         System.out.println("\n######### Preço Total ########");
